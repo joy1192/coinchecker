@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace CoinCheck
 {
@@ -11,28 +12,22 @@ namespace CoinCheck
 
         private const string BaseUri = "https://coincheck.jp/";
 
-        public OrderBooks GetOrderBooks()
+        public async Task<OrderBooks> GetOrderBooks()
         {
             var client = new SimpleRestClient(BaseUri);
 
-            var response = client.GetRequest("/api/order_books");
-
-            if (!response.Wait(TimeoutMillseconds))
-                throw new TimeoutException();
-
-            return JsonConvert.DeserializeObject<OrderBooks>(response.Result);
+            var response = await client.GetRequest("/api/order_books");
+            
+            return JsonConvert.DeserializeObject<OrderBooks>(response);
         }
 
-        public List<Trade> GetTrades()
+        public async Task<List<Trade>> GetTrades()
         {
             var client = new SimpleRestClient(BaseUri);
 
-            var response = client.GetRequest("/api/trades");
+            var response = await client.GetRequest("/api/trades");
 
-            if (!response.Wait(TimeoutMillseconds))
-                throw new TimeoutException();
-
-            return JsonConvert.DeserializeObject<List<Trade>>(response.Result);
+            return JsonConvert.DeserializeObject<List<Trade>>(response);
         }
     }
 }

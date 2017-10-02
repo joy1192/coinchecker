@@ -25,6 +25,9 @@ namespace CoinCheck
 
         public async Task<string> GetRequest(string resource)
         {
+            if (string.IsNullOrEmpty(resource))
+                throw new ArgumentException("resource null or empty.", nameof(resource));
+
             var uri = new Uri(this._baseUrl, resource);
             var response = await _client.GetAsync(uri);
 

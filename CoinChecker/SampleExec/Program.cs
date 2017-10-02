@@ -9,11 +9,11 @@ namespace SampleExec
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var client = new CoinCheckClient();
-            var order_books = client.GetOrderBooks();
-            var trades = client.GetTrades();
+            var order_books = await client.GetOrderBooks();
+            var trades = await client.GetTrades();
 
             Console.WriteLine();
         }
