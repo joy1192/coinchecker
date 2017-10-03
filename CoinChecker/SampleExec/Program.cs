@@ -14,6 +14,7 @@ namespace SampleExec
             var client = new CoinCheckClient();
             var order_books = await client.GetOrderBooks();
             var trades = await client.GetTrades();
+            var ticker = await client.GetTicker();
 
             Console.WriteLine();
         }

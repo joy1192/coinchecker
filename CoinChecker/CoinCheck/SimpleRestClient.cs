@@ -31,6 +31,7 @@ namespace CoinCheck
             var uri = new Uri(this._baseUrl, resource);
             var response = await _client.GetAsync(uri);
 
+            // Responseが失敗だった場合、例外を送出
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception("status code invalid.");//仮

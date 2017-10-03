@@ -12,6 +12,15 @@ namespace CoinCheck
 
         private const string BaseUri = "https://coincheck.jp/";
 
+        public async Task<Ticker> GetTicker()
+        {
+            var client = new SimpleRestClient(BaseUri);
+
+            var response = await client.GetRequest("/api/ticker");
+
+            return JsonConvert.DeserializeObject<Ticker>(response);
+        }
+
         public async Task<OrderBooks> GetOrderBooks()
         {
             var client = new SimpleRestClient(BaseUri);
@@ -29,5 +38,6 @@ namespace CoinCheck
 
             return JsonConvert.DeserializeObject<List<Trade>>(response);
         }
+
     }
 }
