@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CoinCheck
+namespace CoinCheck.Structs
 {
     [JsonObject]
     public class Ticker
