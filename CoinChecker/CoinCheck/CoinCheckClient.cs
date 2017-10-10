@@ -13,6 +13,12 @@ namespace CoinCheck
 
         private const string BaseUri = "https://coincheck.jp/";
 
+        private JsonConverter Serializer { get; }
+
+        public CoinCheckClient()
+        {
+        }
+
         public async Task<Ticker> GetTicker()
         {
             var client = new SimpleRestClient(BaseUri);
@@ -40,5 +46,22 @@ namespace CoinCheck
             return JsonConvert.DeserializeObject<List<Trade>>(response);
         }
 
+        public async Task<OrdersRate> GetOrdersRateByAmount(TradePair pair, OrderType type, double amount)
+        {
+            var client = new SimpleRestClient(BaseUri);
+
+            var response = await client.GetRequest("/api/exchange/orders/rate", ("order_type", $"{type}".ToLower()), ("pair", $"{pair}".ToLower()), ("amount", $"{amount}"));
+
+            return JsonConvert.DeserializeObject<OrdersRate>(response);
+        }
+
+        public async Task<OrdersRate> GetOrdersRateByPrice(TradePair pair, OrderType type, double price)
+        {
+            var client = new SimpleRestClient(BaseUri);
+
+            var response = await client.GetRequest("/api/exchange/orders/rate", ("order_type", $"{type}".ToLower()), ("pair", $"{pair}".ToLower()), ("price", $"{price}"));
+
+            return JsonConvert.DeserializeObject<OrdersRate>(response);
+        }
     }
 }

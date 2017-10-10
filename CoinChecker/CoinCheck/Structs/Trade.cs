@@ -1,17 +1,11 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CoinCheck.Structs
 {
-    public enum OrderType
-    {
-        Unknows,
-        Buy,
-        Sell
-    }
-
     [JsonObject]
     public class Trade
     {

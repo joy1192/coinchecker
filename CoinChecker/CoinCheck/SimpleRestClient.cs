@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace CoinCheck
 {
@@ -23,12 +24,23 @@ namespace CoinCheck
             _client = new HttpClient();
         }
 
-        public async Task<string> GetRequest(string resource)
+        public async Task<string> GetRequest(string resource, params (string Key, string Value)[] parameters)
         {
             if (string.IsNullOrEmpty(resource))
                 throw new ArgumentException("resource null or empty.", nameof(resource));
 
-            var uri = new Uri(this._baseUrl, resource);
+            // ?key1=value1&key2=value2&... or empty
+            string requestString = string.Empty;
+            if (parameters?.Any() is true)
+            {
+                var paramList = parameters
+                        .Select(parameter => $"{parameter.Key}={parameter.Value}")
+                        .ToList();
+
+                requestString = $"?{string.Join("&", paramList)}";
+            }
+
+            var uri = new Uri(this._baseUrl, resource + requestString);
             var response = await _client.GetAsync(uri);
 
             // Responseが失敗だった場合、例外を送出
