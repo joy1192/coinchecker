@@ -12,7 +12,7 @@ namespace SampleExec
     {
         static async Task Main(string[] args)
         {
-            var client = new CoinCheckClient();
+            var client = new PublicAPIClient();
             var order_books = await client.GetOrderBooks();
             var trades = await client.GetTrades();
             var ticker = await client.GetTicker();

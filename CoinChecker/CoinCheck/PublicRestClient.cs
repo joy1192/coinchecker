@@ -7,18 +7,18 @@ using System.Linq;
 
 namespace CoinCheck
 {
-    public class SimpleRestClient
+    public class PublicRestClient
     {
         private HttpClient _client;
 
         private Uri _baseUrl;
 
-        public SimpleRestClient(string baseUrl)
+        public PublicRestClient(string baseUrl)
             : this(new Uri(baseUrl))
         {
         }
 
-        public SimpleRestClient(Uri baseUrl)
+        public PublicRestClient(Uri baseUrl)
         {
             _baseUrl = baseUrl ?? throw new ArgumentNullException(nameof(baseUrl));
             _client = new HttpClient();

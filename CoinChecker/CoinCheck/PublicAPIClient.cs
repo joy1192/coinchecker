@@ -7,21 +7,19 @@ using System.Threading.Tasks;
 
 namespace CoinCheck
 {
-    public class CoinCheckClient
+    public class PublicAPIClient
     {
         private const int TimeoutMillseconds = 1000;
 
         private const string BaseUri = "https://coincheck.jp/";
 
-        private JsonConverter Serializer { get; }
-
-        public CoinCheckClient()
+        public PublicAPIClient()
         {
         }
 
         public async Task<Ticker> GetTicker()
         {
-            var client = new SimpleRestClient(BaseUri);
+            var client = new PublicRestClient(BaseUri);
 
             var response = await client.GetRequest("/api/ticker");
 
@@ -30,7 +28,7 @@ namespace CoinCheck
 
         public async Task<OrderBooks> GetOrderBooks()
         {
-            var client = new SimpleRestClient(BaseUri);
+            var client = new PublicRestClient(BaseUri);
 
             var response = await client.GetRequest("/api/order_books");
             
@@ -39,7 +37,7 @@ namespace CoinCheck
 
         public async Task<List<Trade>> GetTrades()
         {
-            var client = new SimpleRestClient(BaseUri);
+            var client = new PublicRestClient(BaseUri);
 
             var response = await client.GetRequest("/api/trades");
 
@@ -48,7 +46,7 @@ namespace CoinCheck
 
         public async Task<OrdersRate> GetOrdersRateByAmount(TradePair pair, OrderType type, double amount)
         {
-            var client = new SimpleRestClient(BaseUri);
+            var client = new PublicRestClient(BaseUri);
 
             var response = await client.GetRequest("/api/exchange/orders/rate", ("order_type", $"{type}".ToLower()), ("pair", $"{pair}".ToLower()), ("amount", $"{amount}"));
 
@@ -57,7 +55,7 @@ namespace CoinCheck
 
         public async Task<OrdersRate> GetOrdersRateByPrice(TradePair pair, OrderType type, double price)
         {
-            var client = new SimpleRestClient(BaseUri);
+            var client = new PublicRestClient(BaseUri);
 
             var response = await client.GetRequest("/api/exchange/orders/rate", ("order_type", $"{type}".ToLower()), ("pair", $"{pair}".ToLower()), ("price", $"{price}"));
 
