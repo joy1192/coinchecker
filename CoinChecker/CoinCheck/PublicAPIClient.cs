@@ -4,24 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace CoinCheck
 {
     public class PublicAPIClient
     {
-        private const int TimeoutMillseconds = 1000;
-
         private const string BaseUri = "https://coincheck.jp/";
-
-        public PublicAPIClient()
-        {
-        }
 
         public async Task<Ticker> GetTicker()
         {
             var client = new PublicRestClient(BaseUri);
 
-            var response = await client.GetRequest("/api/ticker");
+            var path = "/api/ticker";
+            var response = await client.GetRequest(path);
 
             return JsonConvert.DeserializeObject<Ticker>(response);
         }
@@ -30,8 +26,10 @@ namespace CoinCheck
         {
             var client = new PublicRestClient(BaseUri);
 
-            var response = await client.GetRequest("/api/order_books");
-            
+            var path = "/api/order_books";
+
+            var response = await client.GetRequest(path);
+
             return JsonConvert.DeserializeObject<OrderBooks>(response);
         }
 
@@ -39,7 +37,9 @@ namespace CoinCheck
         {
             var client = new PublicRestClient(BaseUri);
 
-            var response = await client.GetRequest("/api/trades");
+            var path = "/api/trades";
+
+            var response = await client.GetRequest(path);
 
             return JsonConvert.DeserializeObject<List<Trade>>(response);
         }
@@ -48,7 +48,15 @@ namespace CoinCheck
         {
             var client = new PublicRestClient(BaseUri);
 
-            var response = await client.GetRequest("/api/exchange/orders/rate", ("order_type", $"{type}".ToLower()), ("pair", $"{pair}".ToLower()), ("amount", $"{amount}"));
+            var path = "/api/exchange/orders/rate";
+            var parameter = new Dictionary<string, string>
+            {
+                {"order_type", $"{type}" },
+                {"pair", $"{pair}"},
+                {"amount", $"{amount}"},
+            };
+
+            var response = await client.GetRequest(path, parameter);
 
             return JsonConvert.DeserializeObject<OrdersRate>(response);
         }
@@ -57,7 +65,15 @@ namespace CoinCheck
         {
             var client = new PublicRestClient(BaseUri);
 
-            var response = await client.GetRequest("/api/exchange/orders/rate", ("order_type", $"{type}".ToLower()), ("pair", $"{pair}".ToLower()), ("price", $"{price}"));
+            var path = "/api/exchange/orders/rate";
+            var parameter = new Dictionary<string, string>
+            {
+                {"order_type", $"{type}" },
+                {"pair", $"{pair}"},
+                {"price", $"{price}"},
+            };
+
+            var response = await client.GetRequest(path, parameter);
 
             return JsonConvert.DeserializeObject<OrdersRate>(response);
         }

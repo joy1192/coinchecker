@@ -24,23 +24,21 @@ namespace CoinCheck
             _client = new HttpClient();
         }
 
-        public async Task<string> GetRequest(string resource, params (string Key, string Value)[] parameters)
+        public virtual async Task<string> GetRequest(string path, Dictionary<string, string> parameters = null)
         {
-            if (string.IsNullOrEmpty(resource))
-                throw new ArgumentException("resource null or empty.", nameof(resource));
+            if (string.IsNullOrEmpty(path))
+                throw new ArgumentException("resource null or empty.", nameof(path));
 
-            // ?key1=value1&key2=value2&... or empty
-            string requestString = string.Empty;
-            if (parameters?.Any() is true)
+            Uri uri = new Uri(this._baseUrl, path);
+
+            // パラメータ有りならば、パラメータを付けたURIを使用する
+            if (parameters is Dictionary<string, string> param)
             {
-                var paramList = parameters
-                        .Select(parameter => $"{parameter.Key}={parameter.Value}")
-                        .ToList();
-
-                requestString = $"?{string.Join("&", paramList)}";
+                var content = new FormUrlEncodedContent(param);
+                var parameter = await content.ReadAsStringAsync();
+                uri = new Uri(this._baseUrl, $"{path}?{parameter}");
             }
-
-            var uri = new Uri(this._baseUrl, resource + requestString);
+            
             var response = await _client.GetAsync(uri);
 
             // Responseが失敗だった場合、例外を送出
