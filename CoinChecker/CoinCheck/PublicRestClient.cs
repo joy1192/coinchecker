@@ -9,8 +9,6 @@ namespace CoinCheck
 {
     public class PublicRestClient
     {
-        private HttpClient _client;
-
         private Uri _baseUrl;
 
         public PublicRestClient(string baseUrl)
@@ -21,10 +19,9 @@ namespace CoinCheck
         public PublicRestClient(Uri baseUrl)
         {
             _baseUrl = baseUrl ?? throw new ArgumentNullException(nameof(baseUrl));
-            _client = new HttpClient();
         }
 
-        public virtual async Task<string> GetRequest(string path, Dictionary<string, string> parameters = null)
+        public virtual async Task<string> GetRequest(HttpClient client, string path, Dictionary<string, string> parameters = null)
         {
             if (string.IsNullOrEmpty(path))
                 throw new ArgumentException("resource null or empty.", nameof(path));
@@ -39,7 +36,7 @@ namespace CoinCheck
                 uri = new Uri(this._baseUrl, $"{path}?{parameter}");
             }
             
-            var response = await _client.GetAsync(uri);
+            var response = await client.GetAsync(uri);
 
             // Responseが失敗だった場合、例外を送出
             if (!response.IsSuccessStatusCode)
