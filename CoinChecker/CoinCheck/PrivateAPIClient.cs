@@ -25,6 +25,5 @@ namespace CoinCheck
         {
             this.AccessKey = accessKey;
         }
-
     }
 }

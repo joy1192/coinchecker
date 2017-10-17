@@ -9,7 +9,7 @@ namespace CoinCheck
 {
     public class PublicRestClient
     {
-        private Uri _baseUrl;
+        protected Uri _baseUrl;
 
         public PublicRestClient(string baseUrl)
             : this(new Uri(baseUrl))
