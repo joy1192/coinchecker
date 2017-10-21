@@ -22,14 +22,6 @@ namespace SampleExec
             var buy_rate_price = await client.GetOrdersRateByPrice(TradePair.btc_jpy, OrderType.buy, 1000000);
             var sell_rate_price = await client.GetOrdersRateByPrice(TradePair.btc_jpy, OrderType.sell, 1000000);
 
-            var access = AccessInfomationUtility.GetAccessKey();
-            var secret = AccessInfomationUtility.GetSecretAccessKey();
-
-            var privateClient = new PrivateRestClient("https://coincheck.jp/", access, secret);
-
-            System.Net.Http.HttpClient _client = new System.Net.Http.HttpClient();
-            var result = await privateClient.GetRequest(_client, "/api/accounts/balance");
-
             Console.WriteLine();
         }
     }
