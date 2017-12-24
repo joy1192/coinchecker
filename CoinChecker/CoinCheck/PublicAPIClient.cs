@@ -10,7 +10,7 @@ namespace CoinCheck
 {
     public class PublicAPIClient
     {
-        private const string BaseUri = "https://coincheck.jp/";
+        private const string BaseUri = "https://coincheck.com/";
 
         private HttpClient _client;
 
@@ -39,13 +39,17 @@ namespace CoinCheck
             return JsonConvert.DeserializeObject<OrderBooks>(response);
         }
 
-        public async Task<List<Trade>> GetTrades()
+        public async Task<TradeResponse> GetTrades(TradePair pair)
         {
             var path = "/api/trades";
+            var parameter = new Dictionary<string, string>
+            {
+                {"pair", $"{pair}"},
+            };
 
-            var response = await _requester.GetRequest(_client, path);
+            var response = await _requester.GetRequest(_client, path, parameter);
 
-            return JsonConvert.DeserializeObject<List<Trade>>(response);
+            return JsonConvert.DeserializeObject<TradeResponse>(response);
         }
 
         public async Task<OrdersRate> GetOrdersRateByAmount(TradePair pair, OrderType type, double amount)
