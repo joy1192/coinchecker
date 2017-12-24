@@ -14,7 +14,7 @@ namespace SampleExec
         {
             var client = new PublicAPIClient();
             var order_books = await client.GetOrderBooks();
-            var trades = await client.GetTrades();
+            var trades = await client.GetTrades(TradePair.btc_jpy);
             var ticker = await client.GetTicker();
 
             var buy_rate_amount = await client.GetOrdersRateByAmount(TradePair.btc_jpy, OrderType.buy, 1.0);
