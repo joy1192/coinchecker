@@ -81,5 +81,13 @@ namespace CoinCheck
 
             return JsonConvert.DeserializeObject<OrdersRate>(response);
         }
+
+        public async Task<PairRate> GetRate(TradePair pair)
+        {
+            var path = $"/api/rate/{pair}";
+            var response = await _requester.GetRequest(_client, path);
+
+            return JsonConvert.DeserializeObject<PairRate>(response);
+        }
     }
 }
